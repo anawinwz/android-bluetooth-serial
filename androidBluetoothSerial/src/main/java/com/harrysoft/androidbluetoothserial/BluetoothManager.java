@@ -76,10 +76,11 @@ public class BluetoothManager implements Closeable {
                     BluetoothSocket socket;
                     try {
                         socket = device.createInsecureRfcommSocketToServiceRecord(UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"));
+                        socket.connect();
                     } catch (Exception e) {
                         socket = (BluetoothSocket) device.getClass().getMethod("createRfcommSocket", new Class[] {int.class}).invoke(device,1);
+                        socket.connect();
                     }
-                    socket.connect();
                     BluetoothSerialDevice serialDevice = BluetoothSerialDevice.getInstance(mac, socket, charset);
                     devices.put(mac, serialDevice);
                     return serialDevice;
